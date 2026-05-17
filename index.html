@@ -1,13 +1,114 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crash Simulator</title>
 
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0f172a;
+    color:white;
+    text-align:center;
+}
+
+.container{
+    padding:40px;
+}
+
+h1{
+    color:#38bdf8;
+}
+
+#multiplier{
+    font-size:70px;
+    margin:40px 0;
+    color:#22c55e;
+}
+
+button{
+    padding:15px 30px;
+    border:none;
+    border-radius:10px;
+    background:#38bdf8;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0ea5e9;
+}
+
+.history{
+    margin-top:30px;
+}
+
+.history span{
+    display:inline-block;
+    margin:5px;
+    padding:10px;
+    background:#1e293b;
+    border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Crash Game Simulator</h1>
+
+    <div id="multiplier">1.00x</div>
+
+    <button onclick="startGame()">ابدأ الجولة</button>
+
+    <div class="history" id="history"></div>
+</div>
+
+<script>
+
+let historyDiv = document.getElementById("history");
+
+function generateCrashPoint(){
+    // محاكاة عشوائية
+    return (Math.random() * 10 + 1).toFixed(2);
+}
+
+function startGame(){
+
+    let multiplier = 1.00;
+    let crashPoint = parseFloat(generateCrashPoint());
+
+    let display = document.getElementById("multiplier");
+
+    display.style.color = "#22c55e";
+
+    let interval = setInterval(()=>{
+
+        multiplier += 0.05;
+
+        display.innerHTML = multiplier.toFixed(2) + "x";
+
+        if(multiplier >= crashPoint){
+
+            clearInterval(interval);
+
+            display.style.color = "#ef4444";
+            display.innerHTML = "CRASH @ " + crashPoint + "x";
+
+            let item = document.createElement("span");
+            item.innerHTML = crashPoint + "x";
+
+            historyDiv.prepend(item);
+        }
+
+    },100);
+}
+
+</script>
+
+</body>
+</html>
